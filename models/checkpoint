@@ -1,0 +1,2 @@
+model_checkpoint_path: "vanilla_tf-10"
+all_model_checkpoint_paths: "vanilla_tf-10"
