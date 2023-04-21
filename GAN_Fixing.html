@@ -14583,36 +14583,82 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>In this project we applied different heuristic methods to improve image generation for WGAN-GP. For with project, we used 2 classes from cifar10: boats and planes to train our GANs. We started by adjusting the architecture of the generator and discriminator to use one-hot encoded the class labels. Next we apply the 3 differnent heuristic methods from <a href="https://arxiv.org/pdf/1809.11096.pdf">Andrew Brock's Paper</a> and <a href="https://arxiv.org/pdf/1606.03498.pdf">Tim Saliman's Paper</a> on improving GANs - detailed below. We run then GANs until we get resonable images - or until we believe running more epochs would be futile - then calculate the "Inception score". Well, its more like a "VGG score" because use VGG16 pretrained on ImageNet to calculate the score.<br><br>
 We have code with image outputs below but I will also bring the images up here for readability.</p>
 <div style="text-align: center;">
-    <img src="image_generations/cifar.png" alt="Cifar Boats and Planest" style="max-width: 60%;"/>
-</div><h2 id="WGAN-GP-without-Heuristics">WGAN-GP without Heuristics<a class="anchor-link" href="#WGAN-GP-without-Heuristics">&#182;</a></h2><p>Starting with the WGAN-GP without any heuristic methods, we find that  we can generate reasonable images in 500 epochs and have an "Inception" score of 1.350248098373413. This took about 6 seconds per epoch or about 50 minutes to train on Mark's Laptop with an NVIDIA RTX 3070.</p>
-<div style="text-align: center;">
-    <img src="image_generations/basic.png" alt="Basic GAN" style="max-width: 60%;"/>
-</div><p><br><br></p>
-<p>Which brings us to our heuristics...</p>
-<h2 id="Spectral-Normalization">Spectral Normalization<a class="anchor-link" href="#Spectral-Normalization">&#182;</a></h2><p>We start by adding spectral normalization. Spectral normalization is a normalization method that is applied to the discriminator of the network. This method normalizes the maximum singular value of the weight matrix of the discriminator which contrains the matrix's Lipschitz constant - a measure of how much the output of a finction can change with respect to its input. This normalization process makes the discriminator less sensitive to small changes in the input images this stabilizes training and improves the image quality of the generator... Supposedly. We expected this to improve image generation and "Inception" score because as shown in <a href="https://arxiv.org/pdf/1809.11096.pdf">Andrew Brock's Paper</a>, adding this heuristic did improve their results when training with SA-GAN (Zhang et al., 2018). We were wrong. The generated images were incomprehensible and the "Inception" score decreased to 1.1171541213989258. We ran this model for 500 epochs which took about 5 seconds per epoch or about 45 minutes. Training was slightly fastter than the basic GAN. Unfortunately, We simply could not get decent images.<br></p>
-<div style="text-align: center;">
-    <img src="image_generations/spectral.png" alt="Spectral Normalization" style="max-width: 60%;"/>
+    <img src="image_generations/cifar.png" alt="Cifar Boats and Planest" style="max-width: 75%;"/>
 </div>
-<br>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="WGAN-GP-without-Heuristics">WGAN-GP without Heuristics<a class="anchor-link" href="#WGAN-GP-without-Heuristics">&#182;</a></h2><p>Starting with the WGAN-GP without any heuristic methods, we find that  we can generate reasonable images in 500 epochs and have an "Inception" score of 1.350248098373413. This took about 6 seconds per epoch or about 50 minutes to train on Mark's Laptop with an NVIDIA RTX 3070.</p>
+<p><div style="text-align: center;">
+    <img src="image_generations/basic.png" alt="Basic GAN" style="max-width: 75%;"/>
+</div>
+<br></p>
+<p>Which brings us to our heuristics...</p>
 
-Perhaps training the model longer would achieve better results. We stopped training after 500 epochs because with a train time difference of only 1 second per epoch, we believed that an equivalent number of epochs would be sufficient to achieve comperable results to the basic GAN, if the new heuristic was effective. Therefore with poor results after 500 epochs, we declare the heuristic ineffective for our dataset.<br>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Spectral-Normalization">Spectral Normalization<a class="anchor-link" href="#Spectral-Normalization">&#182;</a></h2><p>We start by adding spectral normalization. Spectral normalization is a normalization method that is applied to the discriminator of the network. This method normalizes the maximum singular value of the weight matrix of the discriminator which contrains the matrix's Lipschitz constant - a measure of how much the output of a finction can change with respect to its input. This normalization process makes the discriminator less sensitive to small changes in the input images this stabilizes training and improves the image quality of the generator... Supposedly. We expected this to improve image generation and "Inception" score because as shown in <a href="https://arxiv.org/pdf/1809.11096.pdf">Andrew Brock's Paper</a>, adding this heuristic did improve their results when training with SA-GAN (Zhang et al., 2018). We were wrong. The generated images were incomprehensible and the "Inception" score decreased to 1.1171541213989258. We ran this model for 500 epochs which took about 5 seconds per epoch or about 45 minutes. Training was slightly fastter than the basic GAN. Unfortunately, We simply could not get decent images.<br></p>
+<p><div style="text-align: center;">
+    <img src="image_generations/spectral.png" alt="Spectral Normalization" style="max-width: 75%;"/>
+</div>
+<br></p>
+<p>Perhaps training the model longer would achieve better results. We stopped training after 500 epochs because with a train time difference of only 1 second per epoch, we believed that an equivalent number of epochs would be sufficient to achieve comperable results to the basic GAN, if the new heuristic was effective. Therefore with poor results after 500 epochs, we declare the heuristic ineffective for our dataset.<br></p>
+<p>Another reason that spectral normalization could have yielded poor results is that the images in our dataset are largely similar. Boats and planes are typically similar colors - grey, black, white - and have a blue backgrounds - sky and water. Additionally, due to physical contraints, planes largely must conform to similar shapes to be able to fly, and boats must conform to similar shapes in order to float. Since constraining the Lipschitz constant for the discriminator's weight matrix makes it less sensitive to small changes in the input data, maybe it was unable to learn the minor differences in the labels we chose.</p>
 
-Another reason that spectral normalization could have yielded poor results is that the images in our dataset are largely similar. Boats and planes are typically similar colors - grey, black, white - and have a blue backgrounds - sky and water. Additionally, due to physical contraints, planes largely must conform to similar shapes to be able to fly, and boats must conform to similar shapes in order to float. Since constraining the Lipschitz constant for the discriminator's weight matrix makes it less sensitive to small changes in the input data, maybe it was unable to learn the minor differences in the labels we chose.
-
-<br><br>
-
-## Hinge Loss
-
-The next heurstic we tried adding was hinge loss. Hinge loss is a type of loss function in the discriminatoe of the network. Hinge loss is similar to cross entropy however it prioritizes correct classification for samples that are more difficult to classify which is useful in cases where the data is imbalanced. With  hinge loss, the loss is only computeed for examples where the discriminator predicts incorrectly, or the  prediction is near the descision boundary. This loss function can improve the stability of the model expecially when labels are unbalanced. Our dataset is perfectly balanced between boats and plans but since hinge loss does improve stability, we still expected better results. based on the images below, we percieve slightly better images than the basic GAN with an "Inception" score of 1.435945987701416, which is slightly better than the basic GAN. We ran this model for 500 epochs which took about 6 seconds per epoch, or 50 minutes which is about the same as the basic GAN.<br>
-
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Hinge-Loss">Hinge Loss<a class="anchor-link" href="#Hinge-Loss">&#182;</a></h2><p>The next heurstic we tried adding was hinge loss. Hinge loss is a type of loss function in the discriminatoe of the network. Hinge loss is similar to cross entropy however it prioritizes correct classification for samples that are more difficult to classify which is useful in cases where the data is imbalanced. With  hinge loss, the loss is only computeed for examples where the discriminator predicts incorrectly, or the  prediction is near the descision boundary. This loss function can improve the stability of the model expecially when labels are unbalanced. Our dataset is perfectly balanced between boats and plans but since hinge loss does improve stability, we still expected better results. based on the images below, we percieve slightly better images than the basic GAN with an "Inception" score of 1.435945987701416, which is slightly better than the basic GAN. We ran this model for 500 epochs which took about 6 seconds per epoch, or 50 minutes which is about the same as the basic GAN.<br></p>
 <div style="text-align: center;">
-    <img src="image_generations/hinge.png" alt="Hinge Loss" style="max-width: 60%;"/>
-</div><p><br><br></p>
+    <img src="image_generations/hinge.png" alt="Hinge Loss" style="max-width: 75%;"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Minibatch-Discrimination-with-Hinge-Loss">Minibatch Discrimination with Hinge Loss<a class="anchor-link" href="#Minibatch-Discrimination-with-Hinge-Loss">&#182;</a></h2><p>For our final heuristic, we used minibatch discrimination as well as hinge loss. Minibatch discrimination is a technique that allows the disriminator to process multiple examples from the data, rather than just one at a time. This is used to prevent mode collapse - when a generator only produces a very limited set of images. One of the causes of mode collapse is thatt the discriminator learns to distinguish between the fake and real images based on only a few features like color or texture. Training with mutiple examplies in compination allows the discriminator to learn more complex patterns and relationships in the images which forces the generator to produce more realistic images. We expected better results from this heuristic which was not necessarily the case. To our eyes, the generated images were slightly better than those geneerated using only hinge loss noweer the difference is marginal. However the "Inception" score was only 1.3703337907791138 which is worse then the hinge loss GAN, but better than the basic GAN. We ran this model for 500 epochs which took about 9 seconds per epoch, or an hour and 15 minutes which is the longest training time for any of our models.<br></p>
 <div style="text-align: center;">
-    <img src="image_generations/hinge_and_minibatch.png" alt="Hinge Loss and Minibatch Normalization" style="max-width: 60%;"/>
-</div><p><br><br></p>
-
+    <img src="image_generations/hinge_and_minibatch.png" alt="Hinge Loss and Minibatch Normalization" style="max-width: 75%;"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Code">Code<a class="anchor-link" href="#Code">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -16548,6 +16594,47 @@ Inception Score for WGAN-GP with Hinge Loss and Minibatch Discrimination: 1.3703
 
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># export notebook to html</span>
+<span class="o">!</span>jupyter nbconvert --to html GAN_Fixing.ipynb
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>[NbConvertApp] Converting notebook GAN_Fixing.ipynb to html
+[NbConvertApp] Writing 1803772 bytes to GAN_Fixing.html
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -16556,7 +16643,7 @@ Inception Score for WGAN-GP with Hinge Loss and Minibatch Discrimination: 1.3703
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#</span>
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
      </div>
